@@ -24,27 +24,32 @@ class App extends Component {
         this.state = {
             input: '',
             imageUrl:'',
-            box: {},
+            boxes: [],
             route: 'signIn',
             isSignedIN:false
         }
     }
     calculateFaceLocation = (data) => {
-        const face = data.outputs[0].data.regions[0].region_info.bounding_box;
+        const regions = data.outputs[0].data.regions;
         const image = document.getElementById('inputImage');
         const width = Number(image.width);
         const height = Number(image.height);
-        return {
-            leftCol: face.left_col * width,
-            topRow: face.top_row * height,
-            rightCol: width - (face.right_col * width),
-            bottomRow: height - (face.bottom_row * height)
-        }
+
+        let boxes = [];
+        regions.forEach(region => {
+            const box = region.region_info.bounding_box;
+            boxes.push({
+                leftCol: box.left_col * width,
+                topRow: box.top_row * height,
+                rightCol: width - (box.right_col * width),
+                bottomRow: height - (box.bottom_row * height)
+            });
+        });
+        return boxes;
     };
 
-    displayDetectionBox = (box) => {
-        console.log(box);
-        this.setState({box});
+    displayDetectionBox = (boxes) => {
+        this.setState({boxes});
     };
 
     onInputChange = (event) => {
@@ -73,7 +78,7 @@ class App extends Component {
     };
 
     render() {
-        const { isSignedIn, imageUrl, route, box} = this.state;
+        const { isSignedIn, imageUrl, route, boxes} = this.state;
         return (
             <div className="App">
                 <Particles className='particles'
@@ -89,7 +94,7 @@ class App extends Component {
                             onSubmit={this.onSubmit}
                         />
                         <FaceRec
-                            box={box}
+                            boxes={boxes}
                             url={imageUrl}
                         />
                     </div>
