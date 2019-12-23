@@ -26,9 +26,27 @@ class App extends Component {
             imageUrl:'',
             boxes: [],
             route: 'signIn',
-            isSignedIN:false
+            isSignedIN:false,
+            user:{
+                id:'',
+                name:'',
+                email:'',
+                score:''
+            }
         }
     }
+
+    loadUser = (data)=>{
+        this.setState({
+          user:{
+              id:data.id,
+              name:data.name,
+              email:data.email,
+              score:data.score
+          }
+        })
+    };
+
     calculateFaceLocation = (data) => {
         const regions = data.outputs[0].data.regions;
         const image = document.getElementById('inputImage');
@@ -99,9 +117,12 @@ class App extends Component {
                         />
                     </div>
                     : (
-                        route === 'signIn'
+                        route === 'signIn' || route === 'signOut'
                         ? <SignIn onRouteChange = {this.onRouteChange}/>
-                        : <Registration onRouteChange = {this.onRouteChange}/>
+                        : <Registration
+                                loadUser = {this.loadUser}
+                                onRouteChange = {this.onRouteChange}
+                            />
                     )
                }
             </div>
