@@ -1,10 +1,12 @@
 import React from "react";
+import './FaceRec.css'
 
-const FaceRec = ({url}) => {
+const FaceRec = ({url,box}) => {
     return(
      <div className='center ma'>
          <div className='absolute mt2'>
-             <img src={url} alt='picture you linked' width='500px' height='auto'/>
+             <img id ='inputImage' src={url} width='500px' height='auto'/>
+             <div className='bounding-box' style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
          </div>
      </div>
     );
