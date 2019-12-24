@@ -102,8 +102,8 @@ class App extends Component {
     onRouteChange = (route) =>{
         if(route === 'signOut'){
             this.setState({isSignedIn:false});
-            cookies.remove('user');
-            cookies.set('remember','false');
+            cookies.remove('user',{ path: '/' });
+            cookies.set('remember','false',{ path: '/' });
         }else if( route === 'home'){
             this.setState({isSignedIn:true})
         }
