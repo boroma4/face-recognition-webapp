@@ -1,4 +1,6 @@
 import React,{Component} from "react";
+import Cookies from 'universal-cookie';
+
 
 class SignIn extends Component{
 
@@ -6,7 +8,8 @@ class SignIn extends Component{
         super(props);
         this.state = {
             signInEmail:'',
-            signInPassword:''
+            signInPassword:'',
+            rememberMe:false
         }
     }
     onEmailChange = (event) => {
@@ -14,6 +17,9 @@ class SignIn extends Component{
     };
     onPasswordChange = (event) => {
         this.setState({signInPassword:event.target.value})
+    };
+    onCheck = (event) => {
+        this.setState({rememberMe:event.target.checked})
     };
 
     onSubmit = () =>{
@@ -29,7 +35,12 @@ class SignIn extends Component{
             .then(response=> response.json())
             .then (response => {
                 if(response){
-                    this.props.loadUser(response);
+                    if(this.state.rememberMe){
+                        const cookies = new Cookies();
+                        //might change to secure implementation later
+                        cookies.set('remember', 'true', { path: '/' });
+                    }
+                    this.props.loadUser(response,this.state.rememberMe);
                     this.props.onRouteChange('home');
                 }
             });
@@ -52,7 +63,7 @@ class SignIn extends Component{
                                 <input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                        type="password" name="password" id="password"/>
                             </div>
-                            <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox"/> Remember me</label>
+                            <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox" onChange={this.onCheck}/> Remember me</label>
                         </fieldset>
                         <div className="">
                             <input onClick={this.onSubmit}

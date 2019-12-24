@@ -14,7 +14,8 @@
     "react-particles-js": "^2.7.0",
     "react-scripts": "3.3.0",
     "react-tilt": "^0.1.4",
-    "tachyons": "^4.11.1"
+    "tachyons": "^4.11.1",
+    "universal-cookie": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

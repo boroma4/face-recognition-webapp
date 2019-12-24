@@ -11,12 +11,15 @@ import {particleOptions} from "./Helper/ParticleOptions";
 import FaceRec from "./components/FaceRecognition/FaceRec";
 import SignIn from "./components/SignIn/SignIn";
 import Registration from "./components/Registration/Registration";
+import Cookies from 'universal-cookie';
+
 
 const ParticleOptions = particleOptions;
 
 const app = new Clarifai.App({
     apiKey: '36e21255dbfa4141a3bf027f932599ae'
 });
+const cookies = new Cookies();
 
 class App extends Component {
     constructor() {
@@ -36,7 +39,25 @@ class App extends Component {
         }
     }
 
-    loadUser = (data)=>{
+    componentDidMount() {
+        const id = cookies.get('user');
+        if(cookies.get('remember') && cookies.get('user')){
+           fetch(`https://ghost-server.azurewebsites.net/api/user?id=${id}`)
+               .then(response => response.json())
+               .then(response=>{
+                   this.loadUser(response);
+                   this.setState({
+                       isSignedIn:true,
+                       route:'home'
+                   });
+               })
+               .catch(err=>{
+                   console.log(err);
+               })
+        }
+    }
+
+    loadUser = (data,remember= false)=>{
         this.setState({
           user:{
               userId:data.userId,
@@ -44,8 +65,11 @@ class App extends Component {
               email:data.email,
               score:data.score
           }
-        })
-        console.log(data);
+        });
+        if(remember) {
+            const userIdStr = this.state.user.userId.toString();
+            cookies.set('user',userIdStr, { path: '/' });
+        }
     };
 
     calculateFaceLocation = (data) => {
@@ -77,7 +101,9 @@ class App extends Component {
 
     onRouteChange = (route) =>{
         if(route === 'signOut'){
-            this.setState({isSignedIn:false})
+            this.setState({isSignedIn:false});
+            cookies.remove('user');
+            cookies.set('remember','false');
         }else if( route === 'home'){
             this.setState({isSignedIn:true})
         }
