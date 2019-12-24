@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/face-recognition-webapp-front/static/css/main.2262506c.chunk.css",
-    "main.js": "/face-recognition-webapp-front/static/js/main.30fa3782.chunk.js",
-    "main.js.map": "/face-recognition-webapp-front/static/js/main.30fa3782.chunk.js.map",
+    "main.js": "/face-recognition-webapp-front/static/js/main.675f3c0c.chunk.js",
+    "main.js.map": "/face-recognition-webapp-front/static/js/main.675f3c0c.chunk.js.map",
     "runtime-main.js": "/face-recognition-webapp-front/static/js/runtime-main.d7b244d3.js",
     "runtime-main.js.map": "/face-recognition-webapp-front/static/js/runtime-main.d7b244d3.js.map",
     "static/css/2.eb45ad44.chunk.css": "/face-recognition-webapp-front/static/css/2.eb45ad44.chunk.css",
-    "static/js/2.384269d4.chunk.js": "/face-recognition-webapp-front/static/js/2.384269d4.chunk.js",
-    "static/js/2.384269d4.chunk.js.map": "/face-recognition-webapp-front/static/js/2.384269d4.chunk.js.map",
+    "static/js/2.c042a32d.chunk.js": "/face-recognition-webapp-front/static/js/2.c042a32d.chunk.js",
+    "static/js/2.c042a32d.chunk.js.map": "/face-recognition-webapp-front/static/js/2.c042a32d.chunk.js.map",
     "index.html": "/face-recognition-webapp-front/index.html",
-    "precache-manifest.6618d85eac212ef729cb697b77d5ad99.js": "/face-recognition-webapp-front/precache-manifest.6618d85eac212ef729cb697b77d5ad99.js",
+    "precache-manifest.649b1c694ed8234b80698b278a7a7d23.js": "/face-recognition-webapp-front/precache-manifest.649b1c694ed8234b80698b278a7a7d23.js",
     "service-worker.js": "/face-recognition-webapp-front/service-worker.js",
     "static/css/2.eb45ad44.chunk.css.map": "/face-recognition-webapp-front/static/css/2.eb45ad44.chunk.css.map",
     "static/css/main.2262506c.chunk.css.map": "/face-recognition-webapp-front/static/css/main.2262506c.chunk.css.map",
-    "static/js/2.384269d4.chunk.js.LICENSE": "/face-recognition-webapp-front/static/js/2.384269d4.chunk.js.LICENSE"
+    "static/js/2.c042a32d.chunk.js.LICENSE": "/face-recognition-webapp-front/static/js/2.c042a32d.chunk.js.LICENSE"
   },
   "entrypoints": [
     "static/js/runtime-main.d7b244d3.js",
     "static/css/2.eb45ad44.chunk.css",
-    "static/js/2.384269d4.chunk.js",
+    "static/js/2.c042a32d.chunk.js",
     "static/css/main.2262506c.chunk.css",
-    "static/js/main.30fa3782.chunk.js"
+    "static/js/main.675f3c0c.chunk.js"
   ]
 }
