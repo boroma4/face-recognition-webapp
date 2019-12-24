@@ -26,8 +26,10 @@ class SignIn extends Component{
                 password:signInPassword
             })
         })
-            .then(response=>{
-                if(response.status === 200){
+            .then(response=> response.json())
+            .then (response => {
+                if(response){
+                    this.props.loadUser(response);
                     this.props.onRouteChange('home');
                 }
             });
