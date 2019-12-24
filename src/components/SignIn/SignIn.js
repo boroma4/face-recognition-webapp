@@ -36,9 +36,8 @@ class SignIn extends Component{
     };
 
     render(){
-        const {onRouteChange} = this.props;
         return(
-            <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">
+            <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center bg-white-30">
                 <main className="pa4 black-80">
                     <form className="measure">
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -59,9 +58,6 @@ class SignIn extends Component{
                             <input onClick={this.onSubmit}
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                                    type="button" value="Sign in"/>
-                        </div>
-                        <div className="lh-copy mt3">
-                            <p onClick={() => onRouteChange('signUp')}  className="f6 link dim black db pointer">Register</p>
                         </div>
                     </form>
                 </main>
