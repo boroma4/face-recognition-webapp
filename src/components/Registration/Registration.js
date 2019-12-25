@@ -1,4 +1,13 @@
 import React from "react";
+import '../SignIn/signIn.css'
+
+const isStrongPwd = (password) => {
+
+    const regExp = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    const validPassword = regExp.test(password);
+    return validPassword;
+
+};
 
 class Registration extends React.Component{
     constructor(props) {
@@ -6,7 +15,8 @@ class Registration extends React.Component{
         this.state = {
             regEmail:'',
             regPassword:'',
-            regName:''
+            regName:'',
+            error:''
         }
     }
     onEmailChange = (event) => {
@@ -20,6 +30,18 @@ class Registration extends React.Component{
     };
     onSubmit = () =>{
         const{regEmail,regPassword,regName} = this.state;
+        if(regName.length === 0 ||regPassword.length === 0 ||regEmail.length === 0 ){
+            this.setState({error:'Fields cannot be empty'});
+            return;
+        }
+        if(!regEmail.includes('@')){
+            this.setState({error:'Email is invalid'});
+            return;
+        }
+        if(!isStrongPwd(regPassword)){
+            this.setState({error:'Password is not strong enough'});
+            return;
+        }
         fetch('https://ghost-server.azurewebsites.net/api/register',{
             method:'post',
             headers:{'Content-type':'application/json'},
@@ -32,10 +54,14 @@ class Registration extends React.Component{
             .then(response=> response.json())
                 .then(user=>{
                 if(user){
+                    this.setState({error:''});
                     this.props.loadUser(user);
                     this.props.onRouteChange('home');
                 }
             })
+            .catch(error=>{
+               this.setState({error:'Email already in use'});
+            });
     };
     render() {
         return (
@@ -61,6 +87,9 @@ class Registration extends React.Component{
                                 <input onChange={this.onPasswordChange}
                                     className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                        type="password" name="password" id="password"/>
+                            </div>
+                            <div className='error db fw6 lh-copy f6'>
+                                {this.state.error}
                             </div>
                         </fieldset>
                         <div className="">

@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import Cookies from 'universal-cookie';
-
+import './signIn.css';
 
 class SignIn extends Component{
 
@@ -9,7 +9,8 @@ class SignIn extends Component{
         this.state = {
             signInEmail:'',
             signInPassword:'',
-            rememberMe:false
+            rememberMe:false,
+            errorMessage:''
         }
     }
     onEmailChange = (event) => {
@@ -22,8 +23,14 @@ class SignIn extends Component{
         this.setState({rememberMe:event.target.checked})
     };
 
+
     onSubmit = () =>{
         const{signInEmail,signInPassword} = this.state;
+
+        if(signInPassword.length === 0 || signInEmail.length === 0){
+            this.setState({errorMessage:'Fields cannot be empty'});
+            return;
+        }
         fetch('https://ghost-server.azurewebsites.net/api/login',{
             method:'post',
             headers:{'Content-type':'application/json'},
@@ -40,15 +47,19 @@ class SignIn extends Component{
                         //might change to secure implementation later
                         cookies.set('remember', 'true', { path: '/' });
                     }
+                    this.setState({errorMessage:''});
                     this.props.loadUser(response,this.state.rememberMe);
                     this.props.onRouteChange('home');
                 }
+            })
+            .catch(error=>{
+                this.setState({errorMessage:'Invalid email or password'});
             });
     };
 
     render(){
         return(
-            <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center bg-white-30">
+            <article className="br3 ba dark-red b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center bg-white-30">
                 <main className="pa4 black-80">
                     <form className="measure">
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -62,6 +73,9 @@ class SignIn extends Component{
                                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                                 <input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                        type="password" name="password" id="password"/>
+                            </div>
+                            <div className='error db fw6 lh-copy f6'>
+                                {this.state.errorMessage}
                             </div>
                             <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox" onChange={this.onCheck}/> Remember me</label>
                         </fieldset>
