@@ -16,6 +16,19 @@ import Cookies from 'universal-cookie';
 
 const ParticleOptions = particleOptions;
 
+const InitialState = {
+    input: '',
+    imageUrl:'',
+    boxes: [],
+    route: 'signIn',
+    isSignedIn:false,
+    user:{
+        userId:'',
+        name:'',
+        score:''
+    }
+};
+
 const app = new Clarifai.App({
     apiKey: '36e21255dbfa4141a3bf027f932599ae'
 });
@@ -24,19 +37,7 @@ const cookies = new Cookies();
 class App extends Component {
     constructor() {
         super();
-        this.state = {
-            input: '',
-            imageUrl:'',
-            boxes: [],
-            route: 'signIn',
-            isSignedIn:false,
-            user:{
-                userId:'',
-                name:'',
-                email:'',
-                score:''
-            }
-        }
+        this.state = InitialState;
     }
 
     componentDidMount() {
@@ -59,10 +60,12 @@ class App extends Component {
 
     loadUser = (data,remember= false)=>{
         this.setState({
+            input: '',
+            imageUrl:'',
+            boxes: [],
           user:{
               userId:data.userId,
               name:data.name,
-              email:data.email,
               score:data.score
           }
         });
@@ -101,7 +104,7 @@ class App extends Component {
 
     onRouteChange = (route) =>{
         if(route === 'signOut'){
-            this.setState({isSignedIn:false});
+            this.state = InitialState;
             cookies.remove('user',{ path: '/' });
             cookies.set('remember','false',{ path: '/' });
         }else if( route === 'home'){
@@ -120,7 +123,7 @@ class App extends Component {
             )
             .then(response =>{
                 const boxes = this.calculateFaceLocation(response);
-                this.displayDetectionBox(boxes)
+                this.displayDetectionBox(boxes);
                     fetch('https://ghost-server.azurewebsites.net/api/user',{
                         method:'post',
                         headers:{'Content-type':'application/json'},
